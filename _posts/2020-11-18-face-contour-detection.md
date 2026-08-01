@@ -63,7 +63,7 @@ Canny 的两个阈值是关键：低阈值控制弱边缘，高阈值控制强�
 
 ## 效果
 
-说不上完美，但作为入门级的课程项目，效果可以接受：
+说不上完美，但作为入门级的课程项目，效果可以接受。完整代码后来整理成了开源项目：[xianglun918/FaceContour](https://github.com/xianglun918/FaceContour)，README 里有处理流程动画和效果对比：
 
 ![人脸轮廓检测结果](/assets/img/posts/face-contour-detection/face_contour_detect_demo.jpg)
 _检测结果示例：绿色框是人脸检测区域，蓝色线是 Canny 提取的轮廓。_
