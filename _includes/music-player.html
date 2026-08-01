@@ -18,7 +18,6 @@
     src="{{ music_src | relative_url }}"
     loop
     preload="none"
-    autoplay
   ></audio>
   <button
     id="bg-music-toggle"
@@ -119,6 +118,10 @@
 
   if (!audio || !btn) return;
 
+  /* 跨页面续播：sessionStorage 记录播放进度与状态 */
+  var STORAGE_KEY = 'bg-music-state';
+  var resumeTime = null;
+
   function setPaused() {
     playing = false;
     btn.classList.remove('playing');
@@ -139,6 +142,32 @@
     icon.className = 'fas fa-volume-xmark';
     btn.title = '音频加载失败';
   }
+
+  function saveState() {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        t: audio.currentTime || 0,
+        playing: playing
+      }));
+    } catch (e) { /* 隐私模式等场景静默忽略 */ }
+  }
+
+  function loadState() {
+    try {
+      var raw = sessionStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var st = JSON.parse(raw);
+      if (st && typeof st.t === 'number' && st.t > 0) resumeTime = st.t;
+      return st;
+    } catch (e) { return null; }
+  }
+
+  var lastSave = 0;
+  audio.addEventListener('timeupdate', function() {
+    var now = Date.now();
+    if (now - lastSave > 500) { lastSave = now; saveState(); }
+  });
+  window.addEventListener('pagehide', saveState);
 
   /* 尝试播放；被浏览器自动播放策略阻止时，等待首次用户交互后自动开始 */
   var resume = null;
@@ -176,6 +205,7 @@
     if (playing) {
       audio.pause();
       setPaused();
+      saveState();
     } else {
       tryPlay();
     }
@@ -188,8 +218,21 @@
   audio.addEventListener('ended', setPaused);
   audio.addEventListener('error', setError);
 
-  /* 默认自动播放 */
-  tryPlay();
+  /* 恢复上次进度并决定是否自动播放：上次在播→续播；否则（首次访问）默认打开 */
+  var restored = loadState();
+  var wantAutoPlay = !restored || restored.playing;
+
+  if (resumeTime !== null) {
+    audio.addEventListener('loadedmetadata', function onMeta() {
+      try { audio.currentTime = resumeTime; } catch (e) {}
+      resumeTime = null;
+      audio.removeEventListener('loadedmetadata', onMeta);
+      if (wantAutoPlay) tryPlay();
+    });
+    audio.load();
+  } else {
+    if (wantAutoPlay) tryPlay();
+  }
 })();
 </script>
 {%- endif -%}
