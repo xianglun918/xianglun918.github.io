@@ -4,6 +4,7 @@ date: 2026-08-01
 categories: [技术, 图像处理]
 tags: [OpenCV, 图像处理, 人脸检测, Python]
 description: 数字图像处理课的大作业，用 Haar 级联分类器和 Canny 边缘检测实现了一个简单的人脸轮廓识别。
+image: /assets/img/posts/face-contour-detection/face_contour.jpg
 ---
 
 ## 起因
@@ -63,6 +64,12 @@ Canny 的两个阈值是关键：低阈值控制弱边缘，高阈值控制强�
 ## 效果
 
 说不上完美，但作为入门级的课程项目，效果可以接受：
+
+![人脸轮廓检测结果](/assets/img/posts/face-contour-detection/face_contour.jpg)
+_检测结果示例：绿色框是人脸检测区域，蓝色线是 Canny 提取的轮廓。_
+
+![更多检测示例](/assets/img/posts/face-contour-detection/face_contour_ex.jpg)
+_更多测试样本的检测效果。_
 
 - 正脸、光线好的照片检测比较准
 - 侧脸、遮挡、光线暗的情况下就容易翻车
