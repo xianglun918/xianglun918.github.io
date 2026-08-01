@@ -1,0 +1,191 @@
+<div id="message-form-wrapper">
+  <form id="message-form" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="msg-nickname" class="form-label">昵称 <small class="text-muted">（可选，留空则匿名）</small></label>
+      <input
+        type="text"
+        id="msg-nickname"
+        name="nickname"
+        class="form-control"
+        placeholder="你的昵称"
+        maxlength="50"
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="msg-contact" class="form-label">联系方式 <small class="text-muted">（可选，方便我回复你）</small></label>
+      <input
+        type="text"
+        id="msg-contact"
+        name="contact"
+        class="form-control"
+        placeholder="邮箱、微信、QQ 等"
+        maxlength="100"
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="msg-content" class="form-label">
+        留言内容 <span class="text-danger">*</span>
+      </label>
+      <textarea
+        id="msg-content"
+        name="content"
+        class="form-control"
+        rows="5"
+        placeholder="写下你想说的话..."
+        required
+        minlength="2"
+        maxlength="2000"
+      ></textarea>
+      <div class="invalid-feedback">留言内容不能为空（至少2个字）</div>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <button type="submit" id="msg-submit" class="btn btn-primary">
+        <span class="btn-text">发送留言</span>
+        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+      </button>
+      <small class="text-muted">
+        通过 <a href="https://formsubmit.co/" target="_blank" rel="noopener">FormSubmit</a> 发送，首次使用需确认邮箱
+      </small>
+    </div>
+  </form>
+
+  <!-- Success message -->
+  <div id="msg-success" class="d-none mt-4">
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+      <i class="fas fa-check-circle me-2"></i>
+      <div>留言已发送，感谢！</div>
+    </div>
+  </div>
+
+  <!-- Error message -->
+  <div id="msg-error" class="d-none mt-4">
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      <div>
+        发送失败，请稍后重试。也可以直接发邮件到
+        <a href="mailto:{{ site.social.email }}">{{ site.social.email }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Form styling to match Chirpy theme */
+#message-form .form-control {
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #212529);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#message-form .form-control:focus {
+  border-color: var(--bs-primary, #0d6efd);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+#message-form .form-control::placeholder {
+  color: var(--bs-secondary-color, #6c757d);
+  opacity: 0.7;
+}
+
+#message-form .form-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--bs-body-color, #212529);
+  margin-bottom: 0.375rem;
+}
+
+#message-form textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+#msg-submit {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  min-width: 120px;
+}
+
+#msg-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+</style>
+
+<script>
+(function() {
+  var form = document.getElementById('message-form');
+  var submitBtn = document.getElementById('msg-submit');
+  var btnText = submitBtn.querySelector('.btn-text');
+  var spinner = submitBtn.querySelector('.spinner-border');
+  var successEl = document.getElementById('msg-success');
+  var errorEl = document.getElementById('msg-error');
+  var submitting = false;
+
+  function setSubmitting(state) {
+    submitting = state;
+    submitBtn.disabled = state;
+    btnText.textContent = state ? '发送中...' : '发送留言';
+    spinner.classList.toggle('d-none', !state);
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Hide previous messages
+    successEl.classList.add('d-none');
+    errorEl.classList.add('d-none');
+
+    // Validate
+    var content = document.getElementById('msg-content').value.trim();
+    if (content.length < 2) {
+      document.getElementById('msg-content').classList.add('is-invalid');
+      return;
+    }
+    document.getElementById('msg-content').classList.remove('is-invalid');
+
+    if (submitting) return;
+    setSubmitting(true);
+
+    var data = new FormData(form);
+
+    fetch('https://formsubmit.co/ajax/{{ site.social.email }}', {
+      method: 'POST',
+      body: data
+    })
+    .then(function(response) {
+      if (response.ok) {
+        form.reset();
+        successEl.classList.remove('d-none');
+        // Auto-hide success after 10s
+        setTimeout(function() {
+          successEl.classList.add('d-none');
+        }, 10000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    })
+    .catch(function() {
+      errorEl.classList.remove('d-none');
+    })
+    .finally(function() {
+      setSubmitting(false);
+    });
+  });
+
+  // Clear validation styling on input
+  document.getElementById('msg-content').addEventListener('input', function() {
+    this.classList.remove('is-invalid');
+  });
+})();
+</script>

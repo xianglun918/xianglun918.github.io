@@ -1,0 +1,38 @@
+{% comment %}
+  NetEase Cloud Music (网易云音乐) embed.
+
+  Usage:
+    {% include embed/netease-cloud-music.html id="SONG_ID" %}
+    {% include embed/netease-cloud-music.html id="SONG_ID" type="song" %}
+    {% include embed/netease-cloud-music.html id="PLAYLIST_ID" type="playlist" %}
+    {% include embed/netease-cloud-music.html id="ALBUM_ID" type="album" %}
+
+  type: song (default, type=2), playlist (type=0), album (type=1)
+  id: the numeric ID from the NetEase Cloud Music URL
+{% endcomment %}
+
+{%- assign music_type = include.type | default: 'song' -%}
+{%- assign music_id   = include.id | strip -%}
+
+{%- case music_type -%}
+  {%- when 'playlist' -%}
+    {%- assign api_type = 0 -%}
+    {%- assign height   = 430 -%}
+  {%- when 'album' -%}
+    {%- assign api_type = 1 -%}
+    {%- assign height   = 430 -%}
+  {%- else -%}
+    {%- assign api_type = 2 -%}
+    {%- assign height   = 66 -%}
+{%- endcase -%}
+
+<iframe
+  class="embed-audio netease-cloud-music"
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+  height="{{ height }}"
+  src="//music.163.com/outchain/player?type={{ api_type }}&amp;id={{ music_id }}&amp;auto=0&amp;height={{ height }}"
+>
+</iframe>

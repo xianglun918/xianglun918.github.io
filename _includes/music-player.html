@@ -1,0 +1,171 @@
+{% comment %}
+  Floating background music player.
+
+  Configuration in _config.yml:
+    music:
+      enabled: true
+      src: "/assets/audio/bg-music.mp3"
+      title: "背景音乐"
+{% endcomment %}
+
+{%- if site.music and site.music.enabled -%}
+{%- assign music_src   = site.music.src   | default: '/assets/audio/bg-music.mp3' -%}
+{%- assign music_title = site.music.title | default: '背景音乐' -%}
+
+<div id="bg-music-player">
+  <audio
+    id="bg-music-audio"
+    src="{{ music_src | relative_url }}"
+    loop
+    preload="none"
+  ></audio>
+  <button
+    id="bg-music-toggle"
+    type="button"
+    aria-label="{{ music_title }}"
+    title="{{ music_title }}"
+  >
+    <i class="fas fa-music"></i>
+  </button>
+</div>
+
+<style>
+#bg-music-player {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 1040;
+}
+
+#bg-music-toggle {
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--card-bg, #fff);
+  color: var(--text-muted, #6c757d);
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,.15), 0 0.0625rem 0.125rem rgba(0,0,0,.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: color 0.25s, background 0.25s, box-shadow 0.25s, transform 0.25s;
+  outline: none;
+}
+
+#bg-music-toggle:hover {
+  color: var(--link-color, #2a408e);
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.2), 0 0.125rem 0.25rem rgba(0,0,0,.12);
+  transform: scale(1.08);
+}
+
+#bg-music-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Playing state */
+#bg-music-toggle.playing {
+  color: var(--prompt-color, #42b983);
+}
+
+#bg-music-toggle.playing::after {
+  content: '';
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: 50%;
+  border: 2px solid var(--prompt-color, #42b983);
+  opacity: 0;
+  animation: music-pulse 2s ease-in-out infinite;
+}
+
+@keyframes music-pulse {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  100% { transform: scale(1.35); opacity: 0;   }
+}
+
+/* Icon rotate animation */
+#bg-music-toggle i {
+  transition: transform 0.3s ease;
+}
+
+#bg-music-toggle.playing i {
+  animation: music-icon-spin 3s linear infinite;
+}
+
+@keyframes music-icon-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Stop rotation for pause icon */
+#bg-music-toggle i.fa-pause {
+  animation: none !important;
+}
+
+/* Dark mode override */
+[data-bs-theme="dark"] #bg-music-toggle {
+  background: var(--card-bg, #2d2d2d);
+}
+</style>
+
+<script>
+(function() {
+  var audio = document.getElementById('bg-music-audio');
+  var btn   = document.getElementById('bg-music-toggle');
+  var icon  = btn.querySelector('i');
+  var playing = false;
+
+  if (!audio || !btn) return;
+
+  function setPaused() {
+    playing = false;
+    btn.classList.remove('playing');
+    icon.className = 'fas fa-music';
+    btn.title = '{{ music_title }} - 点击播放';
+  }
+
+  function setPlaying() {
+    playing = true;
+    btn.classList.add('playing');
+    icon.className = 'fas fa-pause';
+    btn.title = '{{ music_title }} - 点击暂停';
+  }
+
+  function setError() {
+    playing = false;
+    btn.classList.remove('playing');
+    icon.className = 'fas fa-volume-xmark';
+    btn.title = '音频加载失败';
+  }
+
+  btn.addEventListener('click', function() {
+    if (playing) {
+      audio.pause();
+      setPaused();
+    } else {
+      var promise = audio.play();
+      if (promise !== undefined) {
+        promise.then(function() {
+          setPlaying();
+        }).catch(function(err) {
+          // Autoplay blocked or file not found
+          if (err.name === 'NotAllowedError') {
+            btn.title = '浏览器禁止自动播放，请先点击页面任意位置后再试';
+          } else {
+            setError();
+          }
+        });
+      }
+    }
+  });
+
+  audio.addEventListener('play',  setPlaying);
+  audio.addEventListener('pause', function() {
+    if (playing) setPaused();
+  });
+  audio.addEventListener('ended', setPaused);
+  audio.addEventListener('error', setError);
+})();
+</script>
+{%- endif -%}
