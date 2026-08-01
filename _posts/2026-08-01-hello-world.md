@@ -4,6 +4,7 @@ date: 2026-08-01
 categories: [生活, 随笔]
 tags: [博客, 建站]
 description: 个人网站重建后的第一篇博客。
+image: /assets/img/favicons/apple-touch-icon.png
 ---
 
 ## 又一次开始

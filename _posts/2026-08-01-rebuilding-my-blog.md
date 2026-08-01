@@ -1,9 +1,10 @@
 ---
 title: 花了一下午，把博客重新搭起来了
-date: 2026-08-01
+date: 2026-08-02
 categories: [生活, 随笔]
 tags: [博客, 建站, Chirpy, Jekyll]
 description: 从 Ruby 升级到 GitHub Actions 部署，一次完整的博客重建记录。
+image: /assets/img/favicons/apple-touch-icon.png
 ---
 
 ## 起因

@@ -100,7 +100,7 @@ avatar: /assets/img/favicons/apple-touch-icon.png
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
-social_preview_image: # string, local or CORS resources
+social_preview_image: /assets/img/favicons/apple-touch-icon.png # string, local or CORS resources
 
 # boolean type, the global switch for TOC in posts.
 toc: true
@@ -157,6 +157,9 @@ pwa:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
 paginate: 10
+
+# Allow posts with future dates to be published
+future: true
 
 # Background music player (floating button at bottom-right)
 # Requires an audio file placed at assets/audio/bg-music.mp3
