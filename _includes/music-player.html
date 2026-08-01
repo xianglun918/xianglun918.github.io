@@ -149,7 +149,7 @@
         promise.then(function() {
           setPlaying();
         }).catch(function(err) {
-          // Autoplay blocked or file not found
+          /* Autoplay blocked or file not found */
           if (err.name === 'NotAllowedError') {
             btn.title = '浏览器禁止自动播放，请先点击页面任意位置后再试';
           } else {
