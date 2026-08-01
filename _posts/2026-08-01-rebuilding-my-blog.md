@@ -73,3 +73,21 @@ CI 里还有个 `htmlproofer` 步骤，用来检查死链。第一次跑就过�
 现在博客可以写东西了。第一件事当然是写这篇文章，记录一下这个过程。以后再回来看，应该会觉得挺好玩的。
 
 下一个 flag：坚持更新。
+
+## 媒体嵌入示例
+
+Chirpy 主题自带 Bilibili 和 YouTube 嵌入组件，直接用：
+
+{% raw %}
+```liquid
+{% include embed/bilibili.html id="BV1xx411c7mD" %}
+{% include embed/youtube.html id="dQw4w9WgXcQ" %}
+{% include embed/netease-cloud-music.html id="1858014392" %}
+```
+{% endraw %}
+
+实际渲染效果：
+
+{% include embed/bilibili.html id="BV1GJ411x7h7" %}
+{% include embed/youtube.html id="dQw4w9WgXcQ" %}
+{% include embed/netease-cloud-music.html id="1858014392" %}
