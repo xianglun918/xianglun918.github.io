@@ -23,6 +23,6 @@ image: /assets/img/favicons/apple-touch-icon.png
 
 ## 关于我
 
-我叫许相伦，网名 XXL，一个普普通通的程序员。平时主要写 Python 和前端，偶尔折腾点嵌入式。GitHub 叫 [xianglun918](https://github.com/xianglun918)，CSDN 叫 [xuxl97](https://blog.csdn.net/xuxl97)。
+我叫 lun，一个普普通通的程序员。平时主要写 Python 和前端，偶尔折腾点嵌入式。GitHub 叫 [xianglun918](https://github.com/xianglun918)，CSDN 叫 [xuxl97](https://blog.csdn.net/xuxl97)。
 
 博客这东西，最重要的不是写得有多好，而是坚持写下去。希望这次能坚持久一点。

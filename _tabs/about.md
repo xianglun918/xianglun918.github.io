@@ -6,7 +6,7 @@ order: 4
 
 ## 关于我
 
-我叫**许相伦**，网名 XXL，一个喜欢折腾技术的程序员。
+我叫 **lun**，一个喜欢折腾技术的程序员。
 
 本科毕业于[香港中文大学（深圳）](https://www.cuhk.edu.cn/)，硕士毕业于 [Texas A&M University](https://www.tamu.edu/)，都是电子信息工程方向。读书期间在机器人实验室做过本科生研究助理，接触过 ROS、嵌入式、计算机视觉和一些机器学习的东西。
 
@@ -14,7 +14,7 @@ order: 4
 
 ## 关于这个博客
 
-站点名称叫 **「XXLの技术后花园」**——不是什么严肃的技术专栏，就是一个业余写写东西的地方。托管在 GitHub Pages，用的 [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) 主题。
+站点名称叫 **「伦语」**——不是什么严肃的技术专栏，就是一个业余写写东西的地方。托管在 GitHub Pages，用的 [Chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) 主题。
 
 主要写三件事：
 
