@@ -1,0 +1,21 @@
+{% comment %}
+  GitHub Gist embed.
+
+  Usage:
+    {% include embed/gist.html id="USERNAME/GIST_ID" %}
+    {% include embed/gist.html id="USERNAME/GIST_ID" file="example.py" %}
+
+  id:   "username/gist_id" from the Gist URL
+  file: optional, embed a single file from a multi-file gist
+{% endcomment %}
+
+{%- assign gist_id  = include.id | strip -%}
+{%- assign gist_src = 'https://gist.github.com/' | append: gist_id | append: '.js' -%}
+
+{%- if include.file -%}
+  {%- assign gist_src = gist_src | append: '?file=' | append: include.file -%}
+{%- endif -%}
+
+<div class="gist-embed">
+  <script src="{{ gist_src }}"></script>
+</div>
