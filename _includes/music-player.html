@@ -18,6 +18,7 @@
     src="{{ music_src | relative_url }}"
     loop
     preload="none"
+    autoplay
   ></audio>
   <button
     id="bg-music-toggle"
@@ -139,24 +140,44 @@
     btn.title = '音频加载失败';
   }
 
+  /* 尝试播放；被浏览器自动播放策略阻止时，等待首次用户交互后自动开始 */
+  var resume = null;
+  function clearResume() {
+    if (resume) {
+      ['click', 'touchstart', 'keydown'].forEach(function(ev) {
+        document.removeEventListener(ev, resume);
+      });
+      resume = null;
+    }
+  }
+
+  function tryPlay() {
+    var promise = audio.play();
+    if (promise !== undefined) {
+      promise.then(function() {
+        setPlaying();
+        clearResume();
+      }).catch(function(err) {
+        /* Autoplay blocked or file not found */
+        if (err.name === 'NotAllowedError') {
+          btn.title = '{{ music_title }} - 点击播放';
+          resume = function() { tryPlay(); };
+          ['click', 'touchstart', 'keydown'].forEach(function(ev) {
+            document.addEventListener(ev, resume, { once: true });
+          });
+        } else {
+          setError();
+        }
+      });
+    }
+  }
+
   btn.addEventListener('click', function() {
     if (playing) {
       audio.pause();
       setPaused();
     } else {
-      var promise = audio.play();
-      if (promise !== undefined) {
-        promise.then(function() {
-          setPlaying();
-        }).catch(function(err) {
-          /* Autoplay blocked or file not found */
-          if (err.name === 'NotAllowedError') {
-            btn.title = '浏览器禁止自动播放，请先点击页面任意位置后再试';
-          } else {
-            setError();
-          }
-        });
-      }
+      tryPlay();
     }
   });
 
@@ -166,6 +187,9 @@
   });
   audio.addEventListener('ended', setPaused);
   audio.addEventListener('error', setError);
+
+  /* 默认自动播放 */
+  tryPlay();
 })();
 </script>
 {%- endif -%}

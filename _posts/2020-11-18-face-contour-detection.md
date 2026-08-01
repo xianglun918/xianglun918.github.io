@@ -1,6 +1,6 @@
 ---
 title: 简单的人脸轮廓识别 -- Haar + Canny 的入门实践
-date: 2026-08-04
+date: 2020-11-18
 categories: [技术, 图像处理]
 tags: [OpenCV, 图像处理, 人脸检测, Python]
 description: 数字图像处理课的大作业，用 Haar 级联分类器和 Canny 边缘检测实现了一个简单的人脸轮廓识别。
