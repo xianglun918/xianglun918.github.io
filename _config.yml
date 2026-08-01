@@ -164,7 +164,7 @@ future: true
 # Background music player (floating button at bottom-right)
 # Requires an audio file placed at assets/audio/bg-music.mp3
 music:
-  enabled: false   # set to true after placing an audio file
+  enabled: true    # set to true after placing an audio file
   src: "/assets/audio/bg-music.mp3"
   title: "背景音乐"
 

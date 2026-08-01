@@ -36,3 +36,7 @@ order: 4
 > 博文约礼 —— 香港中文大学（深圳）校训
 
 在神仙湖畔、龙岗山后过了充实的四年，这句话一直记着。希望自己能写出有意思的东西，也保持对世界的好奇。
+
+## 站点资源版权
+
+- 背景音乐："Windswept" by Kevin MacLeod（[incompetech.com](https://incompetech.com)），基于 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 许可使用。
