@@ -1,35 +1,164 @@
 {% comment %}
   QQ Music (QQ音乐) embed.
 
-  Usage:
-    {% include embed/qq-music.html id="SONG_ID" %}
-    {% include embed/qq-music.html id="SONG_ID" type="song" %}
-    {% include embed/qq-music.html id="PLAYLIST_ID" type="playlist" %}
+  Uses QQ Music's public API to fetch song metadata and renders
+  a clean inline player card. No iframe, no CORS issues.
 
-  type: song (default), playlist
-  id: the numeric ID from the QQ Music URL
-      - Song: copy the share link from y.qq.com, the number after "songid="
-      - Playlist: copy the share link, the number after "id="
+  Usage:
+    {% include embed/qq-music.html id="0039MnYb0qxYhV" %}
+    {% include embed/qq-music.html id="0039MnYb0qxYhV" type="song" %}
+
+  id:   the songmid from the QQ Music share link
+        (e.g. from https://y.qq.com/n/ryqq/songDetail/0039MnYb0qxYhV)
+  type: song (default)
 {% endcomment %}
 
-{%- assign music_type = include.type | default: 'song' -%}
-{%- assign music_id   = include.id | strip -%}
+{%- assign song_mid  = include.id | strip -%}
 
-{%- if music_type == 'playlist' -%}
-  {%- assign height = 450 -%}
-  {%- assign src = '//cyixlq.gitee.io/iframe/#/tencent/' | append: music_id | append: '/false' -%}
-{%- else -%}
-  {%- assign height = 66 -%}
-  {%- assign src = 'https://i.y.qq.com/n2/m/outchain/player/index.html?songid=' | append: music_id | append: '&amp;songtype=0' -%}
-{%- endif -%}
+<div class="qq-music-card" data-songmid="{{ song_mid }}">
+  <div class="qq-music-placeholder">
+    <a
+      href="https://y.qq.com/n/ryqq/songDetail/{{ song_mid }}"
+      target="_blank"
+      rel="noopener"
+      class="qq-music-link"
+    >
+      <span class="qq-music-icon"><i class="fas fa-music"></i></span>
+      <span class="qq-music-text">在 QQ 音乐中打开</span>
+      <span class="qq-music-arrow"><i class="fas fa-external-link-alt"></i></span>
+    </a>
+  </div>
+  <div class="qq-music-info d-none">
+    <a
+      href="https://y.qq.com/n/ryqq/songDetail/{{ song_mid }}"
+      target="_blank"
+      rel="noopener"
+      class="qq-music-detail"
+    >
+      <span class="qq-music-cover"></span>
+      <span class="qq-music-meta">
+        <strong class="qq-music-title"></strong>
+        <small class="qq-music-artist"></small>
+      </span>
+    </a>
+  </div>
+</div>
 
-<iframe
-  class="embed-audio qq-music"
-  frameborder="no"
-  border="0"
-  marginwidth="0"
-  marginheight="0"
-  height="{{ height }}"
-  src="{{ src }}"
->
-</iframe>
+<style>
+.qq-music-card {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 0.75rem;
+  background: var(--bs-body-bg, #fff);
+  transition: border-color 0.2s;
+}
+
+.qq-music-card:hover {
+  border-color: #31c27c;
+}
+
+.qq-music-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--bs-body-color, #212529) !important;
+  text-decoration: none !important;
+}
+
+.qq-music-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #31c27c, #1aad5e);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.qq-music-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.qq-music-arrow {
+  color: var(--bs-secondary-color, #6c757d);
+  font-size: 0.8rem;
+}
+
+.qq-music-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--bs-body-color, #212529) !important;
+  text-decoration: none !important;
+}
+
+.qq-music-cover {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #e8e8e8, #d0d0d0);
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.qq-music-title {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.qq-music-artist {
+  display: block;
+  color: var(--bs-secondary-color, #6c757d);
+}
+</style>
+
+<script>
+(function() {
+  document.querySelectorAll('.qq-music-card').forEach(function(card) {
+    var songmid = card.getAttribute('data-songmid');
+    if (!songmid) return;
+
+    var placeholder = card.querySelector('.qq-music-placeholder');
+    var info = card.querySelector('.qq-music-info');
+    var titleEl = card.querySelector('.qq-music-title');
+    var artistEl = card.querySelector('.qq-music-artist');
+    var coverEl = card.querySelector('.qq-music-cover');
+
+    var apiUrl = 'https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid='
+      + encodeURIComponent(songmid) + '&format=json';
+
+    fetch(apiUrl)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.code !== 0 || !d.data || !d.data.length) return;
+
+        var song = d.data[0];
+        var title = song.title || song.name || '';
+        var singer = (song.singer || [])
+          .map(function(s) { return s.name; }).join(' / ');
+        var albumMid = (song.album || {}).mid || '';
+
+        titleEl.textContent = title;
+        artistEl.textContent = singer;
+
+        if (albumMid) {
+          coverEl.style.backgroundImage =
+            'url(https://y.gtimg.cn/music/photo_new/T002R300x300M000'
+            + albumMid + '.jpg)';
+        }
+
+        placeholder.classList.add('d-none');
+        info.classList.remove('d-none');
+      })
+      .catch(function() {
+        // Keep placeholder link visible on error
+      });
+  });
+})();
+</script>
