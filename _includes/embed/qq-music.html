@@ -1,0 +1,35 @@
+{% comment %}
+  QQ Music (QQ音乐) embed.
+
+  Usage:
+    {% include embed/qq-music.html id="SONG_ID" %}
+    {% include embed/qq-music.html id="SONG_ID" type="song" %}
+    {% include embed/qq-music.html id="PLAYLIST_ID" type="playlist" %}
+
+  type: song (default), playlist
+  id: the numeric ID from the QQ Music URL
+      - Song: copy the share link from y.qq.com, the number after "songid="
+      - Playlist: copy the share link, the number after "id="
+{% endcomment %}
+
+{%- assign music_type = include.type | default: 'song' -%}
+{%- assign music_id   = include.id | strip -%}
+
+{%- if music_type == 'playlist' -%}
+  {%- assign height = 450 -%}
+  {%- assign src = '//cyixlq.gitee.io/iframe/#/tencent/' | append: music_id | append: '/false' -%}
+{%- else -%}
+  {%- assign height = 66 -%}
+  {%- assign src = 'https://i.y.qq.com/n2/m/outchain/player/index.html?songid=' | append: music_id | append: '&amp;songtype=0' -%}
+{%- endif -%}
+
+<iframe
+  class="embed-audio qq-music"
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+  height="{{ height }}"
+  src="{{ src }}"
+>
+</iframe>
