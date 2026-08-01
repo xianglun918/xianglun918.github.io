@@ -33,6 +33,8 @@ xianglun918.github.io/
 │   ├── bilibili.html     #   {% include embed/bilibili.html bvid="..." %}
 │   ├── netease.html      #   {% include embed/netease.html id="..." %}
 │   └── youtube.html      #   {% include embed/youtube.html id="..." %}
+├── _includes/music-player.html  # 悬浮背景音乐播放器
+├── assets/music/         # 本地背景音乐 mp3
 ├── assets/images/posts/  # 每篇文章一个图片子目录 assets/images/posts/<slug>/
 └── tabs/                 # 分类、标签、归档（Chirpy 内置）
 ```
@@ -66,6 +68,12 @@ xianglun918.github.io/
 
 ### 暗色模式
 - 保留 Chirpy 日/夜切换。
+
+### 背景音乐：悬浮播放器
+- 页面角落固定的悬浮音乐播放器控件，支持播放/暂停/切歌。
+- 音乐来源两种：本地 mp3（存 `assets/music/`）与网易云外链。
+- 播放列表在 `_config.yml` 声明，通过 `_includes/music-player.html` 封装注入。
+- 懒加载；浏览器自动播放限制下降级为静默待用户点击播放。
 
 ## 关于页（about.md）
 
