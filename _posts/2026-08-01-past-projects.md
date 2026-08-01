@@ -1,8 +1,8 @@
 ---
 title: 整理了一下以前做过的项目
 date: 2026-08-01
-categories: [技术, 项目]
-tags: [项目总结, 回顾, 嵌入式, Python, 图像处理]
+categories: [生活, 随笔]
+tags: [回忆, 学生时代, 项目]
 description: 翻出学生时代的第一版简历，顺便整理了当年做过的一些项目。
 image: /assets/img/posts/past-projects/resume.png
 ---
