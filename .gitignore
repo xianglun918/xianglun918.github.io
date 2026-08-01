@@ -34,3 +34,4 @@ Thumbs.db
 # OMC / superpowers
 .omc/
 .superpowers/
+.gitmodules
