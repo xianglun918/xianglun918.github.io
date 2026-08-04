@@ -28,7 +28,6 @@ order: 4
 
 - **GitHub**：[xianglun918](https://github.com/xianglun918)
 - **CSDN**：[xuxl97](https://blog.csdn.net/xuxl97)
-- **邮箱**：[xianglun918@qq.com](mailto:xianglun918@qq.com)
 - **留言**：[留言板](/message/) —— 欢迎匿名留言
 
 ## 一句话

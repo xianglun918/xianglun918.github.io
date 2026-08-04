@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 仓库定位
 
-`xianglun918.github.io` 是用户（xianglun918 / 许相伦）的个人网站仓库，托管于 GitHub Pages（CNAME 曾指向 `xianglun918.xyz`）。当前根目录基本是空壳（仅 `README.md` 占位、`ref/` 历史存档、`.omc/` 状态目录），尚无新的站点实现。
+`xianglun918.github.io` 是用户（xianglun918 / lun）的个人网站仓库，托管于 GitHub Pages（CNAME 曾指向 `xianglun918.xyz`）。当前根目录基本是空壳（仅 `README.md` 占位、`ref/` 历史存档、`.omc/` 状态目录），尚无新的站点实现。
 
 ## ref/ —— 历史版本存档（只读参考）
 

@@ -4,17 +4,7 @@ date: 2026-08-03
 categories: [生活, 随笔]
 tags: [回忆, 学生时代, 项目]
 description: 翻出学生时代的第一版简历，顺便整理了当年做过的一些项目。
-image: /assets/img/posts/past-projects/resume.png
 ---
-
-## 翻出来的老简历
-
-整理文件的时候翻到了学生时代的第一版简历。
-
-![第一版简历](/assets/img/posts/past-projects/resume.png)
-_大四那年做的第一版简历，排版现在看来有点青涩。_
-
-那时候的简历写得满满当当，恨不得把做过的所有事情都塞进去。现在回头看，有些项目其实挺有意思的，值得记录一下。
 
 ## 机器人实验室时期
 
