@@ -1,0 +1,330 @@
+/*
+  Cyberpunk Theme — 伦语 (xianglun918.github.io)
+  Overrides Chirpy default palette with a dark neon "cyberpunk / synthwave" look.
+  Both light & dark modes are rendered in the cyberpunk dark palette for
+  a consistent identity. Fully revertible: delete this file + custom-head.html.
+*/
+
+/* ============ Fonts (cybersecurity/tech feel) ============ */
+:root {
+  --cp-font-title: "Orbitron", "Lato", "Microsoft Yahei", sans-serif;
+  --cp-neon-cyan:   #00e5ff;
+  --cp-neon-cyan-2: #4fd8ff;
+  --cp-neon-pink:   #ff2d78;
+  --cp-neon-purple: #a855f7;
+  --cp-neon-green:  #b9f974;
+  --cp-bg:          #0b0b11;
+  --cp-bg-soft:     #0f0f18;
+  --cp-bg-card:     #12121c;
+  --cp-bg-hover:    #1a1a2a;
+  --cp-border:      #26263a;
+  --cp-text:        #e8e6f2;
+  --cp-text-muted:  #9a9ab4;
+}
+
+/* ============ Dark cyberpunk palette for BOTH modes ============ */
+:root[data-bs-theme="light"],
+:root[data-bs-theme="dark"] {
+  color-scheme: dark;
+  --main-bg: var(--cp-bg);
+  --main-border-color: var(--cp-border);
+  --card-bg: var(--cp-bg-card);
+  --card-header-bg: var(--cp-bg-hover);
+  --card-hover-bg: var(--cp-bg-hover);
+  --card-shadow: 0 0 20px rgb(0 229 255 / 6%), rgb(168 85 247 / 8%) 0 0 30px;
+  --button-bg: var(--cp-bg-card);
+
+  --text-color: var(--cp-text);
+  --text-muted-color: var(--cp-text-muted);
+  --text-muted-highlight-color: #cfcfe4;
+  --heading-color: #f2f1fb;
+  --label-color: #b9b9d4;
+
+  --link-color: var(--cp-neon-cyan);
+  --link-underline-color: rgb(0 229 255 / 35%);
+
+  --site-title-color: var(--cp-neon-cyan);
+  --site-subtitle-color: #9a9ab4;
+  --sidebar-bg: var(--cp-bg-soft);
+  --sidebar-border-color: var(--cp-border);
+  --sidebar-btn-bg: var(--cp-bg-hover);
+  --sidebar-btn-color: #a9a9c8;
+  --sidebar-muted-color: #8787a5;
+  --sidebar-hover-bg: var(--cp-bg-hover);
+  --sidebar-active-color: var(--cp-neon-cyan);
+
+  --topbar-bg: rgb(11 11 17 / 72%);
+  --topbar-text-color: var(--cp-text);
+  --menu-bg: var(--cp-bg-card);
+  --menu-border-color: var(--cp-border);
+  --menu-highlight-bg: var(--cp-bg-hover);
+  --menu-active-color: var(--cp-neon-cyan);
+  --menu-shadow-color: rgb(0 0 0 / 55%);
+
+  --btn-border-color: #30304a;
+  --btn-paginator-hover-color: var(--cp-bg-hover);
+  --btn-patinator-text-color: var(--cp-text);
+  --btn-share-color: #a9a9c8;
+  --btn-share-hover-color: var(--cp-neon-pink);
+  --btn-backtotop-color: var(--cp-text);
+  --btn-backtotop-border-color: var(--cp-neon-cyan);
+
+  --blockquote-border-color: var(--cp-neon-cyan);
+  --blockquote-text-color: #b7b7d0;
+  --dash-color: var(--cp-border);
+  --timeline-color: rgb(0 229 255 / 45%);
+  --timeline-node-bg: var(--cp-neon-cyan);
+  --timeline-year-dot-color: var(--cp-bg);
+
+  --tb-odd-bg: #10101a;
+  --tb-even-bg: #14141f;
+  --tb-border-color: var(--cp-border);
+  --tag-border: var(--cp-neon-purple);
+  --tag-shadow: rgb(168 85 247 / 40%);
+  --tag-hover: rgb(168 85 247 / 25%);
+
+  --search-border-color: var(--cp-border);
+  --search-icon-color: #9a9ab4;
+  --search-tag-bg: var(--cp-bg-hover);
+
+  --categories-border: var(--cp-border);
+  --categories-hover-bg: var(--cp-bg-hover);
+  --categories-icon-hover-color: var(--cp-neon-cyan);
+
+  --code-color: var(--cp-neon-pink);
+  --code-header-text-color: #a9a9c8;
+  --code-header-muted-color: #55556f;
+  --code-header-icon-color: #a9a9c8;
+  --kbd-bg-color: var(--cp-bg-hover);
+  --kbd-text-color: var(--cp-text);
+  --kbd-wrap-color: var(--cp-border);
+
+  --highlight-bg-color: #0d0d15;
+  --highlight-lineno-color: #4a4a62;
+  --highlighter-rouge-color: var(--cp-neon-cyan-2);
+  --inline-code-bg: rgb(168 85 247 / 12%);
+  --language-border-color: var(--cp-border);
+
+  --toc-highlight: var(--cp-neon-cyan);
+  --toc-popup-border-color: var(--cp-border);
+  --footnote-target-bg: rgb(0 229 255 / 15%);
+  --checkbox-color: #4a4a62;
+  --checkbox-checked-color: var(--cp-neon-cyan);
+  --clipboard-checked-color: var(--cp-neon-green);
+  --mask-bg: rgb(0 0 0 / 55%);
+  --img-bg: radial-gradient(circle, rgb(24 24 38) 0%, rgb(11 11 17) 100%);
+  --shimmer-bg: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(0 229 255 / 8%) 50%, rgb(255 255 255 / 0%) 100%);
+
+  --prompt-text-color: rgb(226 226 240 / 82%);
+  --prompt-info-bg: rgb(0 115 156 / 42%);
+  --prompt-info-icon-color: var(--cp-neon-cyan);
+  --prompt-tip-bg: rgb(74 222 128 / 16%);
+  --prompt-tip-icon-color: var(--cp-neon-green);
+  --prompt-warning-bg: rgb(251 191 36 / 16%);
+  --prompt-warning-icon-color: #ffd166;
+  --prompt-danger-bg: rgb(255 92 92 / 16%);
+  --prompt-danger-icon-color: var(--cp-neon-pink);
+}
+
+/* Cover the "system preference" fallbacks too (no persisted theme attr) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-bs-theme]) {
+    --main-bg: var(--cp-bg);
+    --text-color: var(--cp-text);
+    --text-muted-color: var(--cp-text-muted);
+    --heading-color: #f2f1fb;
+    --link-color: var(--cp-neon-cyan);
+    --main-border-color: var(--cp-border);
+    --card-bg: var(--cp-bg-card);
+    --button-bg: var(--cp-bg-card);
+    --site-title-color: var(--cp-neon-cyan);
+    --site-subtitle-color: #9a9ab4;
+    --sidebar-bg: var(--cp-bg-soft);
+    --sidebar-border-color: var(--cp-border);
+    --sidebar-hover-bg: var(--cp-bg-hover);
+    --sidebar-active-color: var(--cp-neon-cyan);
+    --sidebar-btn-bg: var(--cp-bg-hover);
+    --topbar-bg: rgb(11 11 17 / 72%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bs-theme]) {
+    --main-bg: var(--cp-bg);
+    --text-color: var(--cp-text);
+    --text-muted-color: var(--cp-text-muted);
+    --heading-color: #f2f1fb;
+    --link-color: var(--cp-neon-cyan);
+    --main-border-color: var(--cp-border);
+    --card-bg: var(--cp-bg-card);
+    --button-bg: var(--cp-bg-card);
+    --site-title-color: var(--cp-neon-cyan);
+    --site-subtitle-color: #9a9ab4;
+    --sidebar-bg: var(--cp-bg-soft);
+    --sidebar-border-color: var(--cp-border);
+    --sidebar-hover-bg: var(--cp-bg-hover);
+    --sidebar-active-color: var(--cp-neon-cyan);
+    --sidebar-btn-bg: var(--cp-bg-hover);
+    --topbar-bg: rgb(11 11 17 / 72%);
+  }
+}
+
+/* ============ Typography / structure ============ */
+html { background: var(--cp-bg); }
+
+body {
+  background-color: var(--cp-bg);
+  /* faint cyber-grid */
+  background-image:
+    linear-gradient(rgb(0 229 255 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 229 255 / 3%) 1px, transparent 1px);
+  background-size: 42px 42px;
+  background-position: -1px -1px;
+  color: var(--cp-text);
+}
+
+/* Site title — neon display font */
+#sidebar .site-title {
+  font-family: var(--cp-font-title);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cp-neon-cyan);
+  text-shadow:
+    0 0 6px rgb(0 229 255 / 70%),
+    0 0 18px rgb(0 229 255 / 45%);
+  animation: cp-flicker 6s linear infinite;
+}
+@keyframes cp-flicker {
+  0%, 19%, 21%, 23%, 80%, 100% { opacity: 1; }
+  20%, 22% { opacity: 0.55; }
+}
+
+/* Headings — tech feel */
+h1, h2, h3, h4, .site-subtitle {
+  letter-spacing: 0.5px;
+}
+main h1, main h2, main h3 {
+  scroll-margin-top: 2rem;
+}
+main h2::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 8px;
+  background: linear-gradient(90deg, var(--cp-neon-cyan), var(--cp-neon-purple));
+  box-shadow: 0 0 10px rgb(0 229 255 / 55%);
+}
+
+/* ============ Links — neon glow ============ */
+a, .post-link, .post-card .card-title a {
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+a:hover {
+  color: var(--cp-neon-cyan-2) !important;
+  text-shadow: 0 0 8px rgb(0 229 255 / 55%);
+}
+
+/* ============ Sidebar — neon accents ============ */
+#sidebar {
+  background: linear-gradient(180deg, var(--cp-bg-soft) 0%, #0d0d15 60%, #0a0a11 100%);
+  border-right: 1px solid var(--cp-border);
+  box-shadow: inset -8px 0 24px rgb(0 229 255 / 4%);
+}
+#sidebar .profile-wrapper { position: relative; }
+#sidebar .profile-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 1.25rem; right: 1.25rem; bottom: -0.5rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cp-neon-cyan), var(--cp-neon-purple), var(--cp-neon-pink));
+  box-shadow: 0 0 12px rgb(0 229 255 / 60%);
+}
+#sidebar #avatar {
+  box-shadow: 0 0 0 2px var(--cp-neon-cyan),
+              0 0 18px rgb(0 229 255 / 50%);
+}
+#sidebar ul li.nav-item.active .nav-link {
+  color: var(--cp-neon-cyan);
+  background: linear-gradient(90deg, rgb(0 229 255 / 14%), rgb(168 85 247 / 10%));
+  box-shadow: inset 3px 0 0 0 var(--cp-neon-cyan);
+}
+#sidebar ul li.nav-item.active .nav-link i { color: var(--cp-neon-cyan); }
+
+/* ============ Topbar ============ */
+#topbar-wrapper {
+  background: var(--topbar-bg);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cp-border);
+}
+
+/* ============ Card / list hover neon ============ */
+#post-list .card-wrapper {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+#post-list .card-wrapper:hover {
+  border-color: var(--cp-neon-purple);
+  box-shadow: 0 0 22px rgb(168 85 247 / 18%), 0 0 6px rgb(0 229 255 / 10%);
+}
+
+/* ============ Tags ============ */
+.post-tag, .tag {
+  border-color: var(--cp-neon-purple) !important;
+  color: var(--cp-neon-cyan-2);
+  transition: all 0.2s ease;
+}
+.post-tag:hover, .tag:hover {
+  background: rgb(168 85 247 / 18%);
+  box-shadow: 0 0 12px rgb(168 85 247 / 45%);
+  color: #fff;
+}
+
+/* ============ Code highlighting ============ */
+div.highlighter-rouge {
+  border: 1px solid var(--cp-border);
+  border-radius: 8px;
+}
+div.highlighter-rouge .highlight {
+  border: 1px solid var(--cp-neon-purple);
+  box-shadow: 0 0 16px rgb(168 85 247 / 12%);
+}
+code.highlighter-rouge {
+  color: var(--cp-neon-pink);
+  text-shadow: 0 0 6px rgb(255 45 120 / 35%);
+}
+
+/* ============ Back to top — neon ring ============ */
+#back-to-top {
+  border: 1px solid var(--cp-neon-cyan);
+  color: var(--cp-neon-cyan);
+  box-shadow: 0 0 12px rgb(0 229 255 / 40%);
+}
+#back-to-top:hover {
+  background: var(--cp-neon-cyan);
+  color: #03030a;
+  box-shadow: 0 0 22px rgb(0 229 255 / 70%);
+}
+
+/* ============ Selection ============ */
+::selection {
+  background: var(--cp-neon-cyan);
+  color: #03030a;
+}
+
+/* ============ Scrollbar ============ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--cp-bg); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--cp-neon-purple), var(--cp-neon-cyan));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--cp-neon-cyan), var(--cp-neon-pink));
+}
+
+/* ============ Footer neon divider ============ */
+footer {
+  background: var(--cp-bg);
+  border-top: 1px solid var(--cp-border);
+}
