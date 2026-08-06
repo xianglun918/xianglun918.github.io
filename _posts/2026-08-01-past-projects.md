@@ -4,6 +4,7 @@ date: 2026-08-03
 categories: [生活, 随笔]
 tags: [回忆, 学生时代, 项目]
 description: 翻出学生时代的一些记录，顺便整理了当年做过的一些项目。
+image: /assets/img/posts/landscape/2026-08-01-past-projects.jpg
 ---
 
 ## 机器人实验室时期

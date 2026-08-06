@@ -4,7 +4,7 @@ date: 2026-08-01
 categories: [技术, 硬件]
 tags: [树莓派, 小车, GPIO, 视频流, 嵌入式]
 description: 大学时做的树莓派小车项目，最近把它重新翻出来优化了一遍：修掉方向映射 bug、加上摄像头视频流和串口通讯。
-image: /assets/img/posts/rasp-car/raspcar_project.jpg
+image: /assets/img/posts/landscape/2026-08-01-raspcar-blog.jpg
 ---
 
 ## 当初是怎么开始的
