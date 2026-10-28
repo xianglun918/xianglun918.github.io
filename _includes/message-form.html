@@ -129,9 +129,14 @@
 </style>
 
 <script>
+/* 注意：站点使用 jekyll-compress-html 的 compress 布局，会把行尾换行去掉。
+   行注释 // 在换行被压掉后会把后面的代码整段吞成注释（浏览器报
+   "Unexpected end of input"，事件监听器根本没挂上，表单退化成原生 GET 提交）。
+   所以这个内联脚本里只能用块注释，禁止使用行注释。 */
 (function() {
   var form = document.getElementById('message-form');
   var submitBtn = document.getElementById('msg-submit');
+  if (!form || !submitBtn) { return; }
   var btnText = submitBtn.querySelector('.btn-text');
   var spinner = submitBtn.querySelector('.spinner-border');
   var successEl = document.getElementById('msg-success');
@@ -139,19 +144,14 @@
   var errorTextEl = document.getElementById('msg-error-text');
   var submitting = false;
 
-  // FormSubmit answers HTTP 200 even when it refuses to send (form not
-  // activated, monthly limit, missing Referer, spam block). The real outcome
-  // is the `success` field in the JSON body, so never trust response.ok alone.
+  /* FormSubmit 拒绝发送时同样返回 HTTP 200，真正的结果在 body 的 success 字段
+     （未激活 / 超过月度额度 / 缺 Referer / 被判垃圾）。只判 response.ok 会假报成功。 */
   function isOk(payload) {
     return payload && (payload.success === true || payload.success === 'true');
   }
 
   function showError(reason) {
-    if (reason) {
-      errorTextEl.textContent = '发送失败：' + reason;
-    } else {
-      errorTextEl.textContent = '发送失败，请稍后重试。';
-    }
+    errorTextEl.textContent = reason ? '发送失败：' + reason : '发送失败，请稍后重试。';
     errorEl.classList.remove('d-none');
   }
 
@@ -164,56 +164,48 @@
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-
-    // Hide previous messages
     successEl.classList.add('d-none');
     errorEl.classList.add('d-none');
 
-    // Validate
-    var content = document.getElementById('msg-content').value.trim();
-    if (content.length < 2) {
-      document.getElementById('msg-content').classList.add('is-invalid');
+    var contentEl = document.getElementById('msg-content');
+    if (contentEl.value.trim().length < 2) {
+      contentEl.classList.add('is-invalid');
       return;
     }
-    document.getElementById('msg-content').classList.remove('is-invalid');
-
-    if (submitting) return;
+    contentEl.classList.remove('is-invalid');
+    if (submitting) { return; }
     setSubmitting(true);
 
     var data = new FormData(form);
+    var endpoint = 'https://formsubmit.co/ajax/{{ site.social.email }}';
 
-    fetch('https://formsubmit.co/ajax/{{ site.social.email }}', {
-      method: 'POST',
-      body: data
-    })
-    .then(function(response) {
-      if (!response.ok) {
-        throw new Error('网络错误（HTTP ' + response.status + '）');
-      }
-      return response.json().catch(function() {
-        throw new Error('服务返回了无法解析的内容');
+    fetch(endpoint, { method: 'POST', body: data })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('网络错误（HTTP ' + response.status + '）');
+        }
+        return response.json().catch(function() {
+          throw new Error('服务返回了无法解析的内容');
+        });
+      })
+      .then(function(payload) {
+        if (!isOk(payload)) {
+          throw new Error((payload && payload.message) || '服务被拒绝');
+        }
+        form.reset();
+        successEl.classList.remove('d-none');
+        setTimeout(function() {
+          successEl.classList.add('d-none');
+        }, 10000);
+      })
+      .catch(function(err) {
+        showError(err && err.message);
+      })
+      .finally(function() {
+        setSubmitting(false);
       });
-    })
-    .then(function(payload) {
-      if (!isOk(payload)) {
-        throw new Error((payload && payload.message) || '服务被拒绝');
-      }
-      form.reset();
-      successEl.classList.remove('d-none');
-      // Auto-hide success after 10s
-      setTimeout(function() {
-        successEl.classList.add('d-none');
-      }, 10000);
-    })
-    .catch(function(err) {
-      showError(err && err.message);
-    })
-    .finally(function() {
-      setSubmitting(false);
-    });
   });
 
-  // Clear validation styling on input
   document.getElementById('msg-content').addEventListener('input', function() {
     this.classList.remove('is-invalid');
   });
