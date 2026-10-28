@@ -64,12 +64,17 @@
 
   <!-- Error message -->
   <div id="msg-error" class="d-none mt-4">
-    <div class="alert alert-danger d-flex align-items-center" role="alert">
-      <i class="fas fa-exclamation-circle me-2"></i>
+    <div class="alert alert-danger d-flex align-items-start" role="alert">
+      <i class="fas fa-exclamation-circle me-2 mt-1"></i>
       <div>
-        发送失败，请稍后重试。也可以到
-        <a href="https://github.com/xianglun918/xianglun918.github.io/issues">GitHub Issues</a>
-        留言反馈。
+        <div id="msg-error-text">发送失败，请稍后重试。</div>
+        <div class="mt-1">
+          也可以直接发邮件到
+          <a href="mailto:{{ site.social.email }}?subject=%E5%8D%9A%E5%AE%A2%E7%95%99%E8%A8%80">{{ site.social.email }}</a>
+          或到
+          <a href="https://github.com/xianglun918/xianglun918.github.io/issues">GitHub Issues</a>
+          留言反馈。
+        </div>
       </div>
     </div>
   </div>
@@ -131,7 +136,24 @@
   var spinner = submitBtn.querySelector('.spinner-border');
   var successEl = document.getElementById('msg-success');
   var errorEl = document.getElementById('msg-error');
+  var errorTextEl = document.getElementById('msg-error-text');
   var submitting = false;
+
+  // FormSubmit answers HTTP 200 even when it refuses to send (form not
+  // activated, monthly limit, missing Referer, spam block). The real outcome
+  // is the `success` field in the JSON body, so never trust response.ok alone.
+  function isOk(payload) {
+    return payload && (payload.success === true || payload.success === 'true');
+  }
+
+  function showError(reason) {
+    if (reason) {
+      errorTextEl.textContent = '发送失败：' + reason;
+    } else {
+      errorTextEl.textContent = '发送失败，请稍后重试。';
+    }
+    errorEl.classList.remove('d-none');
+  }
 
   function setSubmitting(state) {
     submitting = state;
@@ -165,19 +187,26 @@
       body: data
     })
     .then(function(response) {
-      if (response.ok) {
-        form.reset();
-        successEl.classList.remove('d-none');
-        // Auto-hide success after 10s
-        setTimeout(function() {
-          successEl.classList.add('d-none');
-        }, 10000);
-      } else {
-        throw new Error('Form submission failed');
+      if (!response.ok) {
+        throw new Error('网络错误（HTTP ' + response.status + '）');
       }
+      return response.json().catch(function() {
+        throw new Error('服务返回了无法解析的内容');
+      });
     })
-    .catch(function() {
-      errorEl.classList.remove('d-none');
+    .then(function(payload) {
+      if (!isOk(payload)) {
+        throw new Error((payload && payload.message) || '服务被拒绝');
+      }
+      form.reset();
+      successEl.classList.remove('d-none');
+      // Auto-hide success after 10s
+      setTimeout(function() {
+        successEl.classList.add('d-none');
+      }, 10000);
+    })
+    .catch(function(err) {
+      showError(err && err.message);
     })
     .finally(function() {
       setSubmitting(false);
